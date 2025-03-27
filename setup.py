@@ -46,6 +46,7 @@ setup(
     install_requires=[
         'pytest>=8',
     ],
+    python_requires='>=3.8',
     entry_points={
         'pytest11': [
             'pytest_cython = pytest_cython.plugin',
