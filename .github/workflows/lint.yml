@@ -21,11 +21,14 @@ jobs:
         with:
           python-version: "3.14"
 
+      - name: Install uv
+        run: pip install uv
+
       - name: Install dependencies
-        run: pip install .[lint]
+        run: uv pip install .[lint]
 
       - name: Show versions
-        run: pip freeze
+        run: uv pip freeze
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
