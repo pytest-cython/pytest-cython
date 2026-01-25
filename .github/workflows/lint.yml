@@ -23,7 +23,7 @@ jobs:
           activate-environment: "true"
 
       - name: Install dependencies
-        run: uv pip install .[lint]
+        run: uv pip install .[lint] pip
 
       - name: Show versions
         run: uv pip freeze
