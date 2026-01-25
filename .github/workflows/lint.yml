@@ -16,16 +16,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Setup Python
-        uses: actions/setup-python@v6
+      - name: Install uv/Python
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.14"
+          activate-environment: "true"
 
       - name: Install dependencies
-        run: pip install .[lint]
+        run: uv pip install .[lint] pip
 
       - name: Show versions
-        run: pip freeze
+        run: uv pip freeze
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0

@@ -3,13 +3,21 @@ name: Test
 on:
   push:
     branches: ["main"]
-
   pull_request:
     branches: ["main"]
 
 jobs:
   build:
+    name: >-
+      Test ${{ matrix.os }};
+      Py=${{ matrix.python-version }};
+      pytest=${{ matrix.pytest-version }};
+      Cy=${{ matrix.cython-version }};
+      ${{ matrix.editable-install == 'false' && 'non' || '' }}editable
     runs-on: ${{ matrix.os }}
+    concurrency:
+      group: test-${{ github.event_name == 'push' && github.run_number || github.ref }}-${{ toJSON(matrix) }}
+      cancel-in-progress: true
     strategy:
       fail-fast: false
       matrix:
@@ -18,36 +26,31 @@ jobs:
         pytest-version: ["9"]
         cython-version: ["3"]
         editable-install: ["true", "false"]
-
     steps:
-    - uses: actions/checkout@v6
-    - name: Set up Python ${{ matrix.python-version }} [pytest ${{ matrix.pytest-version }}, cython ${{ matrix.cython-version }}]
-      uses: actions/setup-python@v6
+    - name: Checkout code
+      uses: actions/checkout@v6
+
+    - name: Install uv/Python
+      uses: astral-sh/setup-uv@v7
       with:
         python-version: ${{ matrix.python-version }}
-        cache: 'pip'
+        activate-environment: "true"
 
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools
-
-        python -m pip install pytest==${{ matrix.pytest-version }}.*
-        python -m pip install cython==${{ matrix.cython-version }}.*
-        python -m pip install -e .
+      run: uv pip install .[lint]
 
     - name: Install example-project (editable)
-      run: python -m pip install -e tests/example-project
+      run: uv pip install -e tests/example-project
       if: ${{ matrix.editable-install == 'true' }}
 
     - name: Install example-project (non-editable)
-      run: python -m pip install tests/example-project
+      run: uv pip install tests/example-project
       if: ${{ matrix.editable-install == 'false' }}
 
     - name: Show versions
-      run: python -m pip freeze
+      run: uv pip freeze
 
-    - name: Test with pytest
+    - name: Run pytest
       env:
         PY_IGNORE_IMPORTMISMATCH: "1"
       run: pytest -vv tests/
