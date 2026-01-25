@@ -21,7 +21,6 @@ def get_module(basename: str, suffix='.pyx') -> pathlib.Path:
 
 
 def run_pytest(pytester: pytest.Pytester, module: pathlib.Path, import_mode) -> pytest.RunResult:
-    print("Module path:", str(module))
     return pytester.runpytest('-vv', '--doctest-cython', '--import-mode', import_mode, str(module))
 
 

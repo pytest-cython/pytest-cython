@@ -14,10 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        # python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        python-version: ["3.14"]
-        # pytest-version: ["8", "9"]
-        pytest-version: ["9"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        pytest-version: ["8", "9"]
         cython-version: ["3"]
         editable-install: ["true", "false"]
 
