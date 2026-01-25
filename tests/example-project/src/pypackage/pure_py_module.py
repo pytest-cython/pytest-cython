@@ -1,5 +1,3 @@
-
-
 def foo(a, b):
     """
     >>> foo(1, 1)
@@ -9,7 +7,6 @@ def foo(a, b):
 
 
 class Eggs:
-
     def __init__(self, a, b):
         """
         >>> eggs = Eggs(1, 1)

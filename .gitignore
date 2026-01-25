@@ -4,7 +4,7 @@
 *.so
 
 # IDE
-.vscode/settings.json
+.vscode/
 
 # Packages
 *.egg

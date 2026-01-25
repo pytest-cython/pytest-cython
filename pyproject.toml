@@ -1,0 +1,76 @@
+[project]
+name = "pytest-cython"
+description = "A plugin for testing Cython extension modules."
+authors = [
+    { name = "Logan Page", email = "page.lg@gmail.com" },
+    { name = "Richard Shadrach", email = "rhshadrach@gmail.com" },
+]
+keywords = ['pytest', 'py.test', 'cython', 'doctest']
+readme = "README.md"
+license = {file = "LICENSE.md"}
+requires-python = ">= 3.8"
+dynamic = ["version"]
+dependencies = ["pytest>=8"]
+classifiers=[
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: Implementation :: CPython',
+    'Topic :: Software Development :: Testing',
+    'Topic :: Utilities',
+]
+
+[tool.setuptools.dynamic]
+version = {file = "src/pytest_cython/VERSION"}
+
+[project.entry-points."pytest11"]
+pytest_cython = "pytest_cython.plugin"
+
+[project.urls]
+Documentation = "https://github.com/lgpage/pytest-cython/tree/main#readme"
+Source = "https://github.com/lgpage/pytest-cython"
+Tracker = "https://github.com/lgpage/pytest-cython/issues"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+lint = ["pre-commit", "mypy", "codespell"]
+test = ["pytest"]
+dev = ["pytest-cython[lint, test]"]
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = [
+    "A",   # flake8-builtins
+    # "ANN", # flake8-annotations
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    # "D",   # pydocstyle
+    "DOC", # pydoclint
+    "E",   # pycodestyle - error
+    "F",   # Pyflakes
+    "FA",  # flake8-future-annotations
+    # "FBT", # flake8-boolean-trap
+    "G",   # flake8-logging-format
+    "I",   # isort
+    "INP", # flake8-no-pep420
+    "ISC", # flake8-implicit-str-concat
+    "LOG", # flake8-logging
+    "N",   # pep8-naming
+    "PERF", # Perflint
+    "PIE", # flake8-pie
+    "PL",  # Pylint
+    "Q",   # flake8-quotes
+    "RUF", # Ruff-specific rules
+    "SIM", # flake8-simplify
+    "T20", # flake8-print
+    "UP",  # pyupgrade
+    "W",   # pycodestyle - warning
+    "YTT", # flake8-2020
+]
