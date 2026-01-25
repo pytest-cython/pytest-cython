@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: '3.x'
 
@@ -36,7 +36,7 @@ jobs:
         python -m build
 
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@3fbcf7ccf443305955ce16db9de8401f7dc1c7dd
+      uses: pypa/gh-action-pypi-publish@03f86fee9ac21f854951f5c6e2a02c2a1324aec7
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
