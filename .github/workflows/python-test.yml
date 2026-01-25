@@ -47,6 +47,6 @@ jobs:
       if: ${{ matrix.editable-install == 'false' }}
 
     - name: Test with pytest
-      run: |
-        # TODO: Remove src?
-        PY_IGNORE_IMPORTMISMATCH=1 pytest -vv tests src
+      env:
+        PY_IGNORE_IMPORTMISMATCH: "1"
+      run: pytest -vv tests
