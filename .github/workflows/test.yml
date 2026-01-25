@@ -8,6 +8,13 @@ on:
 
 jobs:
   build:
+    name: >-
+      Test
+      ${{ matrix.os }}
+      -Py=${{matrix.python-version}}
+      -pytest=${{ matrix.pytest-version }}
+      -Cy=${{ cython-version }}
+      -${{ matrix.editable-install == 'false' && 'non' || '' }}editable
     runs-on: ${{ matrix.os }}
     concurrency:
       group: test-${{ github.event_name == 'push' && github.run_number || github.ref }}-${{ toJSON(matrix) }}
