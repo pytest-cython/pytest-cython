@@ -1,0 +1,36 @@
+minimum_pre_commit_version: 2.15.0
+exclude: ^LICENSES/
+ci:
+  autofix_prs: false
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.6.2
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        types_or: [python, rst, markdown]
+        additional_dependencies: [tomli]
+
+  - repo: local
+    hooks:
+      - id: mypy
+        # note: assumes python env is setup and activated
+        name: mypy
+        entry: mypy
+        language: system
+        pass_filenames: false
+        types: [python]
+        stages: [manual]
