@@ -9,8 +9,7 @@ import pytest
 
 from typing import Any, Iterable, Union
 
-from _pytest.nodes import Collector
-from _pytest.doctest import skip, DoctestModule, DoctestItem
+from _pytest.doctest import DoctestModule, DoctestItem
 from _pytest.pathlib import resolve_package_path, ImportMode
 
 
@@ -33,13 +32,9 @@ def pytest_addoption(parser: pytest.Parser):
     )
 
 
-def pytest_collect_file(file_path: pathlib.Path, path, parent: pytest.Collector) -> pytest.Module:
+def pytest_collect_file(file_path: pathlib.Path, parent: pytest.Collector) -> pytest.Module:
     config = parent.config
     if file_path.suffix not in CYTHON_SUFFIXES or not config.getoption('--doctest-cython'):
-        return
-
-    bin_path = file_path.with_suffix(EXT_SUFFIX)
-    if not bin_path.exists():
         return
 
     # only run test if matching .so and .pyx files exist
@@ -62,15 +57,6 @@ class _PatchedDoctestModule(DoctestModule):
             os.environ[IGNORE_IMPORTMISMATCH_KEY] = IGNORE_IMPORTMISMATCH
 
         module = self.obj  # module already imported
-
-        try:
-            _check_module_import(module, self.path, mode)
-        except Collector.CollectError:
-            if self.config.getvalue("doctest_ignore_import_errors"):
-                skip("unable to import module %r" % self.path)
-            else:
-                raise
-
         return _add_line_numbers(module, items)
 
 
@@ -92,30 +78,6 @@ def _get_module_name(path: pathlib.Path) -> str:
         module_name = path.stem
 
     return module_name
-
-
-def _check_module_import(module: Any, path: pathlib.Path, mode: ImportMode) -> None:
-    # double check that the only difference is the extension else raise an exception
-
-    if mode is ImportMode.importlib or IGNORE_IMPORTMISMATCH == "1":
-        return
-
-    module_name = _get_module_name(path)
-    module_file = _without_suffixes(module.__file__)
-    import_file = _without_suffixes(path)
-
-    if module_file == import_file:
-        return
-
-    raise Collector.CollectError(
-        "import file mismatch:\n"
-        "imported module %r has this __file__ attribute:\n"
-        "  %s\n"
-        "which is not the same as the test file we want to collect:\n"
-        "  %s\n"
-        "HINT: remove __pycache__ / .pyc files and/or use a "
-        "unique basename for your test file modules" % (module_name, module_file, import_file)
-    )
 
 
 def _add_line_numbers(module: Any, items: Iterable[DoctestItem]) -> Iterable[DoctestItem]:

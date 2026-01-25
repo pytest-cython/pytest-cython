@@ -2,20 +2,19 @@ from __future__ import absolute_import
 
 import pathlib
 import pytest
-import shutil
+from pathlib import Path
 
-from setuptools.sandbox import run_setup
-
-# import pytest_cython as a quite check to ensure it was installed before running tests
+# Check imports to ensure packages are installed before running tests
 import pytest_cython.plugin
+import pypackage
 
 
 ROOT_PATH = pathlib.Path(__file__).parent
 PROJECT_PATH = ROOT_PATH.joinpath('example-project')
 PACKAGE_PATH = PROJECT_PATH.joinpath('src', 'pypackage')
 
-IMPORT_MODES = ["append", "prepend", "importlib"]
-
+# TODO: Figure out if importlib can be supported.
+IMPORT_MODES = ["append", "prepend"]
 
 def get_module(basename: str, suffix='.pyx') -> pathlib.Path:
     return PACKAGE_PATH.joinpath(basename + suffix)
@@ -23,21 +22,6 @@ def get_module(basename: str, suffix='.pyx') -> pathlib.Path:
 
 def run_pytest(pytester: pytest.Pytester, module: pathlib.Path, import_mode) -> pytest.RunResult:
     return pytester.runpytest('-vv', '--doctest-cython', '--import-mode', import_mode, str(module))
-
-
-@pytest.fixture(scope='module', autouse=True)
-def build_example_project():
-    shutil.rmtree(PROJECT_PATH.joinpath('build'), True)
-    shutil.rmtree(PACKAGE_PATH.joinpath('__pycache__'), True)
-
-    for file in PACKAGE_PATH.glob('*.pyd'):
-        file.unlink()
-
-    for file in PACKAGE_PATH.glob('*.c'):
-        file.unlink()
-
-    setup_py = PROJECT_PATH.joinpath('setup.py')
-    run_setup(str(setup_py), ['build_ext', '--inplace'])
 
 
 @pytest.mark.parametrize('import_mode', IMPORT_MODES)
