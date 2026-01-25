@@ -9,8 +9,7 @@ import pytest
 
 from typing import Any, Iterable, Union
 
-from _pytest.nodes import Collector
-from _pytest.doctest import skip, DoctestModule, DoctestItem
+from _pytest.doctest import DoctestModule, DoctestItem
 from _pytest.pathlib import resolve_package_path, ImportMode
 
 
