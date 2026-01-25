@@ -43,9 +43,7 @@ test = ["pytest"]
 dev = ["pytest-cython[lint, test]"]
 
 [tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
+unfixable = ["F401"]
 select = [
     "A",   # flake8-builtins
     # "ANN", # flake8-annotations

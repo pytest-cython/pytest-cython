@@ -1,6 +1,7 @@
 import pathlib
 
 # Check imports to ensure packages are installed before running tests
+import pypackage  # noqa: F401
 import pytest
 
 ROOT_PATH = pathlib.Path(__file__).parent
