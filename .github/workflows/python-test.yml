@@ -49,4 +49,4 @@ jobs:
     - name: Test with pytest
       run: |
         # TODO: Remove src?
-        pytest -vv tests src
+        PY_IGNORE_IMPORTMISMATCH=1 pytest -vv tests src
