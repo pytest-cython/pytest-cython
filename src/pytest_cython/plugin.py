@@ -33,13 +33,9 @@ def pytest_addoption(parser: pytest.Parser):
     )
 
 
-def pytest_collect_file(file_path: pathlib.Path, path, parent: pytest.Collector) -> pytest.Module:
+def pytest_collect_file(file_path: pathlib.Path, parent: pytest.Collector) -> pytest.Module:
     config = parent.config
     if file_path.suffix not in CYTHON_SUFFIXES or not config.getoption('--doctest-cython'):
-        return
-
-    bin_path = file_path.with_suffix(EXT_SUFFIX)
-    if not bin_path.exists():
         return
 
     # only run test if matching .so and .pyx files exist
