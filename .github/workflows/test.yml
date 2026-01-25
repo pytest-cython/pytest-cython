@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     concurrency:
-      group: test-${{ github.event_name == 'push' && github.run_number || github.ref }}-${{ matrix.os }}-${{ matrix.python-version }}-$${{ matrix.pytest-version }}-$${{ matrix.cython-version }}-${{ matrix.editable-install }}
+      group: test-${{ github.event_name == 'push' && github.run_number || github.ref }}-${{ matrix }}
       cancel-in-progress: true
     strategy:
       fail-fast: false
@@ -24,7 +24,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v6
 
-    - name: Install the latest version of uv and set the python version
+    - name: Install uv/Python
       uses: astral-sh/setup-uv@v7
       with:
         python-version: ${{ matrix.python-version }}
