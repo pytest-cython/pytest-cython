@@ -8,16 +8,15 @@
 [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pytest-cython.svg)](https://anaconda.org/conda-forge/pytest-cython)
 [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pytest-cython.svg)](https://anaconda.org/conda-forge/pytest-cython)
 
-[![CI Check Status](https://github.com/lgpage/pytest-cython/actions/workflows/python-check.yml/badge.svg?branch=main)](https://github.com/lgpage/pytest-cython/actions/workflows/python-check.yml?query=branch%3Amain)
-[![CI Tests Status](https://github.com/lgpage/pytest-cython/actions/workflows/python-test.yml/badge.svg?branch=main)](https://github.com/lgpage/pytest-cython/actions/workflows/python-test.yml?query=branch%3Amain)
-[![Documentation Status](https://readthedocs.org/projects/pytest-cython/badge/?style=flat)](https://readthedocs.org/projects/pytest-cython)
+[![CI Lint Status](https://github.com/lgpage/pytest-cython/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/lgpage/pytest-cython/actions/workflows/lint.yml?query=branch%3Amain)
+[![CI Test Status](https://github.com/lgpage/pytest-cython/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/lgpage/pytest-cython/actions/workflows/test.yml?query=branch%3Amain)
 
-This [pytest](https://github.com/pytest-dev/pytest) plugin allows for the doctesting of C extension modules for
-Python, specifically created through [cython](https://cython.org/).
+This [pytest](https://github.com/pytest-dev/pytest) plugin allows for the doctesting of C/C++ extension modules for
+Python created through [cython](https://cython.org/).
 
 ## Installation
 
-You can install "pytest-cython" via [pip](https://pypi.org/project/pip/) from [PyPI](https://pypi.org):
+You can install `pytest-cython` via [pip](https://pypi.org/project/pip/) from [PyPI](https://pypi.org):
 
 ``` shell
 pip install pytest-cython
@@ -37,10 +36,11 @@ You can also run the doctests for a single `.pyx` file as such:
 pytest --doctest-cython path/to/module.pyx
 ```
 
-### Note
+### Notes
 
-It is assumed that the C extension modules have been build in place before running `py.test` and there is a
-matching Cython `.pyx` file
+- The pytest option `--import-mode=importlib` is not supported, though we would like it to be.
+- When using the pytest option `--import-mode=prepend` with packages that are installed in a
+  non-editable fashion, you must set the environment variable `PY_IGNORE_IMPORTMISMATCH=1`.
 
 ## Compatibility
 
@@ -49,6 +49,7 @@ compatible with.
 
 | Version | Pytest | Cython  |
 | ------- | ------ | ------- |
+ | 0.4.x  | 9      | 3       |
 | 0.3.x   | 8      | 0.29, 3 |
 | 0.2.x   | 6, 7   | 0.29, 3 |
 
