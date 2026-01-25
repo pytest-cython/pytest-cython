@@ -58,15 +58,6 @@ class _PatchedDoctestModule(DoctestModule):
             os.environ[IGNORE_IMPORTMISMATCH_KEY] = IGNORE_IMPORTMISMATCH
 
         module = self.obj  # module already imported
-
-        try:
-            _check_module_import(module, self.path, mode)
-        except Collector.CollectError:
-            if self.config.getvalue("doctest_ignore_import_errors"):
-                skip("unable to import module %r" % self.path)
-            else:
-                raise
-
         return _add_line_numbers(module, items)
 
 
