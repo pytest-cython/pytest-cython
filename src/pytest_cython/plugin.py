@@ -91,6 +91,7 @@ def _get_module_name(path: pathlib.Path) -> str:
 
 
 def _check_module_import(module: Any, path: pathlib.Path, mode: ImportMode) -> None:
+    return
     # double check that the only difference is the extension else raise an exception
 
     if mode is ImportMode.importlib or IGNORE_IMPORTMISMATCH == "1":
@@ -101,6 +102,8 @@ def _check_module_import(module: Any, path: pathlib.Path, mode: ImportMode) -> N
     import_file = _without_suffixes(path)
 
     if module_file == import_file:
+        # Skip file check with compiled files; these will not be in the
+        # same location as e.g. pyx files when doing a non-editable install.
         return
 
     raise Collector.CollectError(

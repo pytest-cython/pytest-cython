@@ -12,13 +12,12 @@ import pypackage
 ROOT_PATH = pathlib.Path(__file__).parent
 PROJECT_PATH = ROOT_PATH.joinpath('example-project')
 PACKAGE_PATH = PROJECT_PATH.joinpath('src', 'pypackage')
-INSTALL_PATH = Path(pypackage.__file__).resolve().parent
 
 # TODO: Figure out if importlib can be supported.
 IMPORT_MODES = ["append", "prepend"]
 
 def get_module(basename: str, suffix='.pyx') -> pathlib.Path:
-    return INSTALL_PATH.joinpath(basename + suffix)
+    return PACKAGE_PATH.joinpath(basename + suffix)
 
 
 def run_pytest(pytester: pytest.Pytester, module: pathlib.Path, import_mode) -> pytest.RunResult:
