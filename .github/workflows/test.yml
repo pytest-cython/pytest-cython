@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     concurrency:
-      group: test-${{ github.event_name == 'push' && github.run_number || github.ref }}-${{ matrix }}
+      group: test-${{ github.event_name == 'push' && github.run_number || github.ref }}-${{ toJSON(matrix) }}
       cancel-in-progress: true
     strategy:
       fail-fast: false
