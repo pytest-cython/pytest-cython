@@ -60,7 +60,7 @@ jobs:
     name: Publish to TestPyPI
     needs: build
     runs-on: ubuntu-latest
-    if: inputs.publish_to_testpypi == 'true'
+    # if: inputs.publish_to_testpypi == 'true'
     environment:
       name: testpypi
       url: https://test.pypi.org/p/pytest-cython
