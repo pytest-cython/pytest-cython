@@ -7,7 +7,7 @@ authors = [
 ]
 keywords = ['pytest', 'py.test', 'cython', 'doctest']
 readme = "README.md"
-license = {file = "LICENSE.md"}
+license-files = ["LICENSE.md"]
 requires-python = ">= 3.8"
 dynamic = ["version"]
 dependencies = ["pytest>=8"]
