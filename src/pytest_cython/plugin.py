@@ -5,15 +5,13 @@ from __future__ import annotations
 import os
 import pathlib
 import re
-import sysconfig
 from typing import Any, Iterable
 
 import pytest
 from _pytest.doctest import DoctestItem, DoctestModule
 from _pytest.pathlib import ImportMode, resolve_package_path
 
-CYTHON_SUFFIXES = [".py", ".pyx"]
-EXT_SUFFIX = sysconfig.get_config_var("EXT_SUFFIX")
+CYTHON_SUFFIXES = [".pyx"]
 
 IGNORE_IMPORTMISMATCH_KEY = "PY_IGNORE_IMPORTMISMATCH"
 IGNORE_IMPORTMISMATCH = os.environ.get(IGNORE_IMPORTMISMATCH_KEY, "")
