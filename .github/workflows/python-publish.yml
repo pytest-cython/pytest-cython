@@ -10,9 +10,6 @@ on:
       publish_to_testpypi:
         type: boolean
         default: 'false'
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
@@ -53,14 +50,14 @@ jobs:
       with:
         name: python-package-distributions
         path: dist/
-#    - name: Publish to PyPI
-#      uses: pypa/gh-action-pypi-publish@release/v1
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
 
   publish-to-testpypi:
     name: Publish to TestPyPI
     needs: build
     runs-on: ubuntu-latest
-    # if: inputs.publish_to_testpypi == 'true'
+    if: inputs.publish_to_testpypi == 'true'
     environment:
       name: testpypi
       url: https://test.pypi.org/p/pytest-cython
