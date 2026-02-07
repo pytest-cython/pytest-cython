@@ -33,6 +33,10 @@ jobs:
       with:
         name: python-package-distributions
         path: dist/
+    - name: Debug
+      run: |
+        echo "${{ inputs.publish_to_pypi }}"
+        echo "${{ inputs.publish_to_pypi == 'true' }}"
 
   publish-to-pypi:
     name: Publish to PyPI
